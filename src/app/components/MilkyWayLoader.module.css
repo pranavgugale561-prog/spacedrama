@@ -1,0 +1,107 @@
+.loaderContainer {
+    position: fixed;
+    inset: 0;
+    background-color: var(--background);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fadeOut {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.98);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.02);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.98);
+        opacity: 0.8;
+    }
+}
+
+.galaxy {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    animation: spin 15s linear infinite;
+    border-radius: 50%;
+    box-shadow: 0 0 150px var(--gold-glow), inset 0 0 100px rgba(0, 0, 0, 0.5);
+    opacity: 0.7;
+}
+
+.stars1,
+.stars2,
+.stars3 {
+    position: absolute;
+    background: transparent;
+    border-radius: 50%;
+}
+
+.stars1 {
+    width: 2px;
+    height: 2px;
+    box-shadow: 100px 50px #FFD700, 200px 250px #fff, 300px 100px #FFD700,
+        150px 320px #fff, 80px 280px #FFD700, 320px 260px #FFD700,
+        50px 180px #fff, 260px 40px #FFD700;
+    animation: twinkle 3s infinite alternate;
+}
+
+.stars2 {
+    width: 3px;
+    height: 3px;
+    box-shadow: 80px 150px #fff, 120px 90px #FFD700, 280px 180px #fff,
+        180px 320px #FFD700, 90px 250px #fff, 240px 60px #FFD700,
+        350px 200px #fff, 20px 100px #FFD700;
+    animation: twinkle 2s infinite alternate-reverse;
+}
+
+.stars3 {
+    width: 1px;
+    height: 1px;
+    box-shadow: 120px 150px #fff, 220px 290px #FFD700, 180px 80px #fff,
+        280px 120px #FFD700, 190px 250px #fff, 140px 60px #FFD700;
+    animation: twinkle 4s infinite alternate;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

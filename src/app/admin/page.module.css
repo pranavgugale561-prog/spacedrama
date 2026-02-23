@@ -1,0 +1,109 @@
+.loginContainer {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+}
+
+.loginCard {
+    padding: 3rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.loginInput {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--foreground);
+    font-family: var(--font-main);
+    margin-bottom: 1.5rem;
+}
+
+.loginInput:focus {
+    outline: none;
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.dashboard {
+    padding: 2rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.refreshBtn {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--foreground);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-main);
+}
+
+.refreshBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--gold-primary);
+}
+
+.tableContainer {
+    background: rgba(2, 6, 23, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow-x: auto;
+    padding: 1rem;
+}
+
+.leadsTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.leadsTable th {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leadsTable td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.statusSelect {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--foreground);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-main);
+}
+
+.statusSelect:focus {
+    outline: none;
+    border-color: var(--gold-primary);
+}
+
+.statusSelect option {
+    background: var(--background);
+    color: var(--foreground);
+}
