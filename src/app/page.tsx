@@ -4,6 +4,7 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import RevealOnScroll from "./components/RevealOnScroll";
 import LeadCapturePopup from "./components/LeadCapturePopup";
 import FloatingCart from "./components/FloatingCart";
+import FloatingAdmin from "./components/FloatingAdmin";
 
 export default function Home() {
   return (
@@ -69,6 +70,7 @@ export default function Home() {
 
       <FloatingWhatsApp />
       <FloatingCart />
+      <FloatingAdmin />
       <LeadCapturePopup />
     </main>
   );

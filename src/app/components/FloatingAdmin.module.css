@@ -1,0 +1,57 @@
+.floatingAdmin {
+    position: fixed;
+    bottom: 11rem;
+    /* perfectly stacks above the floating cart (which is at 6.5rem) */
+    right: 2rem;
+    z-index: 300;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(2, 6, 23, 0.8);
+    border: 1px solid var(--gold-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+    transition: transform 0.25s ease, box-shadow 0.25s;
+    animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+    text-decoration: none;
+}
+
+@keyframes slideIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.floatingAdmin:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 32px rgba(255, 215, 0, 0.4);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+@media (max-width: 600px) {
+    .floatingAdmin {
+        width: 50px;
+        height: 50px;
+        bottom: 10rem;
+        right: 1.5rem;
+    }
+
+    .icon {
+        font-size: 1.3rem;
+    }
+}
