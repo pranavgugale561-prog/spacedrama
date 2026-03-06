@@ -1,14 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
+
+type Lead = {
+    id: string;
+    timestamp: string;
+    name: string;
+    business?: string;
+    phone: string;
+    area: string;
+    budget?: string;
+    services: string;
+    type?: string;
+    status: string;
+};
+
+const STATUS_OPTIONS = ["New", "Contacted", "Meeting Fixed", "Project Launched"];
+
+const STATUS_COLORS: Record<string, string> = {
+    "New": "#4ade80",
+    "Contacted": "#60a5fa",
+    "Meeting Fixed": "#f59e0b",
+    "Project Launched": "#FFD700",
+};
 
 export default function AdminDashboard() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [password, setPassword] = useState("");
-    const [leads, setLeads] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [leads, setLeads] = useState<Lead[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [filter, setFilter] = useState("All");
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,18 +64,29 @@ export default function AdminDashboard() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ id, status: newStatus }),
             });
-            fetchLeads(); // Refresh local data
+            fetchLeads();
         } catch (err) {
             console.error(err);
             alert("Failed to update status.");
         }
     };
 
+    const filteredLeads = filter === "All" ? leads : leads.filter(l => l.status === filter);
+
+    const stats = {
+        total: leads.length,
+        new: leads.filter(l => l.status === "New").length,
+        contacted: leads.filter(l => l.status === "Contacted").length,
+        launched: leads.filter(l => l.status === "Project Launched").length,
+    };
+
     if (!isAuthenticated) {
         return (
             <div className={styles.loginContainer}>
                 <div className={`glass ${styles.loginCard}`}>
-                    <h1 className="text-glow" style={{ color: "var(--gold-primary)", marginBottom: "2rem" }}>Mission Control Login</h1>
+                    <div className={styles.loginLogo}>🚀</div>
+                    <h1 className="text-glow" style={{ color: "var(--gold-primary)", marginBottom: "0.5rem" }}>Mission Control</h1>
+                    <p style={{ opacity: 0.5, marginBottom: "2rem", fontSize: "0.9rem" }}>Space Drama Admin Panel</p>
                     <form onSubmit={handleLogin} className={styles.loginForm}>
                         <input
                             type="password"
@@ -61,9 +95,8 @@ export default function AdminDashboard() {
                             onChange={e => setPassword(e.target.value)}
                             className={styles.loginInput}
                         />
-                        <button type="submit" className="btn-primary" style={{ width: "100%" }}>Authenticate</button>
+                        <button type="submit" className="btn-primary" style={{ width: "100%" }}>Authenticate 🔐</button>
                     </form>
-                    <p style={{ marginTop: "1.5rem", fontSize: "0.85rem", opacity: 0.6 }}>Authorized Personnel Only (Hint: Khushi2026)</p>
                 </div>
             </div>
         );
@@ -73,49 +106,92 @@ export default function AdminDashboard() {
         <div className={styles.dashboard}>
             <header className={styles.header}>
                 <h1 className="text-glow" style={{ color: "var(--gold-primary)", fontFamily: "var(--font-display)" }}>
-                    Mission Control
+                    🛸 Mission Control
                 </h1>
                 <div style={{ display: "flex", gap: "1rem" }}>
                     <button onClick={fetchLeads} className={styles.refreshBtn}>🔄 Refresh</button>
-                    <Link href="/" className={styles.refreshBtn} style={{ textDecoration: "none" }}>Launchpad (Home)</Link>
+                    <Link href="/" className={styles.refreshBtn} style={{ textDecoration: "none" }}>← Home</Link>
                 </div>
             </header>
+
+            {/* Stats Row */}
+            <div className={styles.statsRow}>
+                <div className={`glass ${styles.statCard}`}>
+                    <span className={styles.statNum}>{stats.total}</span>
+                    <span className={styles.statLabel}>Total Leads</span>
+                </div>
+                <div className={`glass ${styles.statCard}`}>
+                    <span className={styles.statNum} style={{ color: "#4ade80" }}>{stats.new}</span>
+                    <span className={styles.statLabel}>New</span>
+                </div>
+                <div className={`glass ${styles.statCard}`}>
+                    <span className={styles.statNum} style={{ color: "#60a5fa" }}>{stats.contacted}</span>
+                    <span className={styles.statLabel}>Contacted</span>
+                </div>
+                <div className={`glass ${styles.statCard}`}>
+                    <span className={styles.statNum} style={{ color: "#FFD700" }}>{stats.launched}</span>
+                    <span className={styles.statLabel}>Launched ✨</span>
+                </div>
+            </div>
+
+            {/* Filter */}
+            <div className={styles.filterRow}>
+                {["All", ...STATUS_OPTIONS].map(s => (
+                    <button
+                        key={s}
+                        onClick={() => setFilter(s)}
+                        className={`${styles.filterBtn} ${filter === s ? styles.filterActive : ""}`}
+                    >
+                        {s}
+                    </button>
+                ))}
+            </div>
 
             <div className={styles.tableContainer}>
                 {loading ? (
                     <p style={{ padding: "2rem", textAlign: "center" }}>Processing Data...</p>
-                ) : leads.length === 0 ? (
-                    <p style={{ padding: "2rem", textAlign: "center" }}>No galactic leads yet. Space is empty.</p>
+                ) : filteredLeads.length === 0 ? (
+                    <p style={{ padding: "2rem", textAlign: "center" }}>No leads found. Space is empty 🌌</p>
                 ) : (
                     <table className={styles.leadsTable}>
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Name</th>
-                                <th>Phone</th>
-                                <th>Area</th>
-                                <th>Services Requested</th>
+                                <th>Business</th>
+                                <th>WhatsApp</th>
+                                <th>Location</th>
+                                <th>Budget</th>
+                                <th>Services Selected</th>
+                                <th>Type</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {leads.map((lead) => (
+                            {filteredLeads.map((lead) => (
                                 <tr key={lead.id}>
-                                    <td>{new Date(lead.timestamp).toLocaleDateString()}</td>
-                                    <td style={{ fontWeight: 600 }}>{lead.name}</td>
-                                    <td>{lead.phone}</td>
+                                    <td>{new Date(lead.timestamp).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "2-digit" })}</td>
+                                    <td style={{ fontWeight: 600, color: "var(--gold-primary)" }}>{lead.name}</td>
+                                    <td>{lead.business || "—"}</td>
+                                    <td><a href={`https://wa.me/91${lead.phone}`} target="_blank" rel="noopener noreferrer" style={{ color: "#4ade80" }}>+91 {lead.phone}</a></td>
                                     <td>{lead.area}</td>
-                                    <td>{lead.services}</td>
+                                    <td style={{ color: "#f59e0b", fontWeight: 600 }}>{lead.budget || "—"}</td>
+                                    <td className={styles.servicesCell}>{lead.services}</td>
+                                    <td>
+                                        <span className={`${styles.typeBadge} ${lead.type === "popup" ? styles.typeBadgePopup : styles.typeBadgeCart}`}>
+                                            {lead.type === "popup" ? "Enquiry" : "Cart"}
+                                        </span>
+                                    </td>
                                     <td>
                                         <select
                                             value={lead.status}
                                             onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
                                             className={styles.statusSelect}
+                                            style={{ borderColor: STATUS_COLORS[lead.status] || "rgba(255,255,255,0.2)" }}
                                         >
-                                            <option value="New">New</option>
-                                            <option value="Contacted">Contacted</option>
-                                            <option value="Meeting Fixed">Meeting Fixed</option>
-                                            <option value="Project Launched">Project Launched ✨</option>
+                                            {STATUS_OPTIONS.map(o => (
+                                                <option key={o} value={o}>{o}</option>
+                                            ))}
                                         </select>
                                     </td>
                                 </tr>

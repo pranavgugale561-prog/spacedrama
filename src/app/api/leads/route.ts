@@ -27,10 +27,13 @@ export async function POST(req: Request) {
         const newLead = {
             id: Date.now().toString(),
             name: body.name,
+            business: body.business || '',
             phone: body.phone,
             area: body.area,
+            budget: body.budget || '',
             services: body.services,
-            status: 'Contacted', // Requirements state: "Contacted," "Meeting Fixed," or "Project Launched"
+            type: body.type || 'cart',
+            status: 'New',
             timestamp: new Date().toISOString()
         };
 

@@ -2,6 +2,7 @@ import styles from "./page.module.css";
 import AstroCart from "./components/AstroCart";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import RevealOnScroll from "./components/RevealOnScroll";
+import LeadCapturePopup from "./components/LeadCapturePopup";
 
 export default function Home() {
   return (
@@ -66,6 +67,7 @@ export default function Home() {
       </section>
 
       <FloatingWhatsApp />
+      <LeadCapturePopup />
     </main>
   );
 }
