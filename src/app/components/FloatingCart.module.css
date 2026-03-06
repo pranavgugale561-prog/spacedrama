@@ -1,10 +1,12 @@
 .floatingCart {
     position: fixed;
-    bottom: 6rem;
-    right: 1.5rem;
+    bottom: 6.5rem;
+    /* sits directly above the WhatsApp button (2rem + 60px + 0.5rem gap) */
+    right: 2rem;
+    /* same right as WhatsApp button - perfectly aligned */
     z-index: 300;
-    width: 58px;
-    height: 58px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: var(--gold-primary);
     border: none;
@@ -31,7 +33,7 @@
 
 .floatingCart:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 32px rgba(255, 215, 0, 0.6);
+    box-shadow: 0 6px 32px rgba(255, 215, 0, 0.65);
 }
 
 .icon {

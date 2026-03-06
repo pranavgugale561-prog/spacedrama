@@ -34,18 +34,22 @@ export default function AstroCart() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [prices, setPrices] = useState<Record<string, string>>(DEFAULT_PRICES);
 
-    // Load prices from API (admin can change these)
     useEffect(() => {
         fetch("/api/prices")
             .then(r => r.json())
             .then(data => setPrices(data))
-            .catch(() => { }); // silently fall back to defaults
+            .catch(() => { });
     }, []);
 
-    // Broadcast cart count to FloatingCart
+    // Broadcast count + full services data to FloatingCart
     useEffect(() => {
-        window.dispatchEvent(new CustomEvent("cartUpdated", { detail: { count: selectedServices.length } }));
-    }, [selectedServices]);
+        const selectedData = SERVICES
+            .filter(s => selectedServices.includes(s.id))
+            .map(s => ({ ...s, priceMin: prices[s.id] ?? DEFAULT_PRICES[s.id] }));
+        window.dispatchEvent(new CustomEvent("cartUpdated", {
+            detail: { count: selectedServices.length, services: selectedData }
+        }));
+    }, [selectedServices, prices]);
 
     const toggleService = (id: string) => {
         setSelectedServices(prev =>
@@ -87,23 +91,6 @@ export default function AstroCart() {
                     );
                 })}
             </div>
-
-            {selectedServices.length > 0 && (
-                <div className={`${styles.cartSummary} glass`}>
-                    <div className={styles.cartInfo}>
-                        <span className="text-glow" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>🛒 Astro-Cart:</span>
-                        <span>{selectedServices.length} {selectedServices.length === 1 ? "Service" : "Services"} Selected</span>
-                        <div className={styles.cartTags}>
-                            {selectedData.map(s => (
-                                <span key={s.id} className={styles.cartTag}>{s.name}</span>
-                            ))}
-                        </div>
-                    </div>
-                    <button className={`btn-primary ${styles.quoteBtn}`} onClick={() => setIsModalOpen(true)}>
-                        🚀 Get Galactic Quote
-                    </button>
-                </div>
-            )}
 
             {isModalOpen && (
                 <GalacticQuoteModal
