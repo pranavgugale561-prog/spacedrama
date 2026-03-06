@@ -1,0 +1,76 @@
+.floatingCart {
+    position: fixed;
+    bottom: 6rem;
+    right: 1.5rem;
+    z-index: 300;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--gold-primary);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(255, 215, 0, 0.45);
+    transition: transform 0.25s ease, box-shadow 0.25s;
+    animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.floatingCart:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 32px rgba(255, 215, 0, 0.6);
+}
+
+.icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #020617;
+    color: var(--gold-primary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--gold-primary);
+    padding: 0 4px;
+}
+
+.pop {
+    animation: pop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

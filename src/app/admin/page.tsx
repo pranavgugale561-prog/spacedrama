@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                             onChange={e => setPassword(e.target.value)}
                             className={styles.loginInput}
                         />
-                        <button type="submit" className="btn-primary" style={{ width: "100%" }}>Authenticate 🔐</button>
+                        <button type="submit" className={styles.loginBtn}>Authenticate 🔐</button>
                     </form>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./AstroCart.module.css";
 import GalacticQuoteModal from "./GalacticQuoteModal";
 
@@ -31,6 +31,11 @@ const SERVICES = [
 export default function AstroCart() {
     const [selectedServices, setSelectedServices] = useState<string[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Broadcast cart count to FloatingCart
+    useEffect(() => {
+        window.dispatchEvent(new CustomEvent("cartUpdated", { detail: { count: selectedServices.length } }));
+    }, [selectedServices]);
 
     const toggleService = (id: string) => {
         setSelectedServices(prev =>
