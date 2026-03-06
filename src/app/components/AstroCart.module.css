@@ -217,4 +217,17 @@
     .cartTag {
         max-width: none;
     }
+
+    .card {
+        text-align: center;
+        align-items: center;
+    }
+
+    .cardHeader h3 {
+        text-align: center;
+    }
+
+    .priceTag {
+        align-items: center;
+    }
 }
